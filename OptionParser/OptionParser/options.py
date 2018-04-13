@@ -1,20 +1,22 @@
 import sys
 
 required_options = []
-options_list = []
-
-
+option_temp = []
+    
     
 def set_option(option: str, o_type: type, required: bool) -> bool:
+    option_temp.append(option)
     required_options.append((option, o_type))
     
-def get():
+def get_options():
     
-    # Temp placement for
+    # 
     sorted_sys_args = []
+    options_list = []
+    
     args = ' '.join(sys.argv[1:]).split('--')
     
-    # Append 
+    # x = list((map(lambda x: sorted_sys_args.append((x.split(' ')[0], x.split(' ')[1:] )), args)))
     for arg in args:
         option_type = arg.split(' ')[0]
         option_arg = arg[1:].split(' ')[1:]
@@ -23,7 +25,11 @@ def get():
     # Remove empty item at beginning of list [1:]
     sorted_sys_args = sorted_sys_args[1:]
     
-    # Loop 
+    for k, v in sorted_sys_args:
+        if k not in option_temp:
+            print('Unknown Option Found --{0}. Exiting.'.format(k))
+            sys.exit()
+    # Loop
     for raw_option_type, raw_option_values in sorted_sys_args:
         # Remove spaces from raw values if any exist    
         for value in raw_option_values:
